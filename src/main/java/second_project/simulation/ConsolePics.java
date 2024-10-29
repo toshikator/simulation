@@ -4,7 +4,7 @@ public enum ConsolePics {
     CARNIVORE("\uD83D\uDC6E"),
     HERBIVORE("\uD83E\uDD37 "),
     TREE("\uD83C\uDF33 "),
-    ROCK("⛰\uFE0F "),
+    ROCK("⛰️ "),
     GRASS("\uD83C\uDF31"),
     TILE("\uD83D\uDD32");
 
