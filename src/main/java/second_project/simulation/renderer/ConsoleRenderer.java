@@ -4,8 +4,6 @@ import second_project.simulation.ConsolePics;
 import second_project.simulation.Coordinates;
 import second_project.simulation.map.Map;
 
-import java.awt.*;
-
 public class ConsoleRenderer {
     private static ConsoleRenderer instance;
 
@@ -21,11 +19,11 @@ public class ConsoleRenderer {
     }
 
     public void render(Map map) {
-        for (int y = 0; y < map.mapSize.ordinate; y++) {
+        for (int y = 0; y < map.getMapSize().ordinate; y++) {
 
-            for (int x = 0; x < map.mapSize.abscissa; x++) {
-                
-                System.out.printf("%-3s", map.map.containsKey(new Coordinates(x, y)) ? map.map.get(new Coordinates(x, y)).img : ConsolePics.TILE.getPic());
+            for (int x = 0; x < map.getMapSize().abscissa; x++) {
+
+                System.out.printf("%-3s", map.isCoordinateEmpty(new Coordinates(x, y)) ? ConsolePics.TILE.getPic() : map.getEntityByCoordinates(new Coordinates(x, y)).getImg());
             }
 
             System.out.println();
