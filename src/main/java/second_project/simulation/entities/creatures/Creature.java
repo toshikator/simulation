@@ -1,21 +1,23 @@
 package second_project.simulation.entities.creatures;
 
 import second_project.simulation.Coordinates;
+import second_project.simulation.actions.pathfinder.AStarTracer;
+import second_project.simulation.actions.pathfinder.NodeOnMap;
 import second_project.simulation.entities.Entity;
 import second_project.simulation.map.Map;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public abstract class Creature extends Entity {
     protected final Map map;
-    public boolean IsDead;
+    public boolean isDead;
     protected Integer speed;
     protected Integer health;
+    protected String foodType;
 
-    protected Creature(Map map) {
+    public Creature(Map map, Coordinates coordinates) {
+        super(coordinates);
         this.map = map;
-        IsDead = false;
     }
 
     public void getDamage(int damage) {
@@ -25,8 +27,59 @@ public abstract class Creature extends Entity {
         }
     }
 
+    protected Coordinates getClosestFoodCoordinate() {
+        HashMap<Integer, Entity> foodDatabase = new HashMap<>();
+        for (Entity entity : map.getEntities()) {
+            if (Objects.equals(entity.getName(), foodType)) {
+                foodDatabase.put(Map.calculateDistance(entity.getCoordinates(), this.getCoordinates()), entity);
+            }
+        }
+        return foodDatabase.get(foodDatabase.keySet().stream().findFirst().get()).getCoordinates();
+    }
+
+    protected Entity getEatableFood() {
+        Coordinates[] variants = {
+                new Coordinates(this.coordinates.abscissa + 1, this.coordinates.ordinate),
+                new Coordinates(this.coordinates.abscissa - 1, this.coordinates.ordinate),
+                new Coordinates(this.coordinates.abscissa, this.coordinates.ordinate + 1),
+                new Coordinates(this.coordinates.abscissa, this.coordinates.ordinate - 1),
+        };
+
+        for (Coordinates temp : variants) {
+
+            if (map.isCoordinateOnMap(temp)) {
+                if (!map.isCoordinateEmpty(temp)) {
+                    if (map.getEntityByCoordinates(temp).getName().equals(foodType)) {
+                        return map.getEntityByCoordinates(temp);
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public void makeAction() {
+        Entity temp = getEatableFood();
+        if (Objects.isNull(temp)) {
+            goToMyFood(getClosestFoodCoordinate());
+        } else {
+            eatMyFood(temp);
+        }
+    }
+
+    protected void goToMyFood(Coordinates food) {
+        AStarTracer tracer = new AStarTracer(map, this, map.getEntityByCoordinates(getClosestFoodCoordinate()));
+        List<NodeOnMap> path = tracer.findPath();
+        for (int i = 1; i < speed && path.size() > 1; i++) {
+            path.removeFirst();
+        }
+        map.moveEntity(this.coordinates, path.getFirst().getCoordinates());
+    }
+
+    protected abstract void eatMyFood(Entity food);
+
     public void dead() {
-        this.IsDead = true;
+        this.isDead = true;
     }
 
     public Set<Coordinates> getAvailableMoveCoordinates() {

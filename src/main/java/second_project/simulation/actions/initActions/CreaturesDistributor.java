@@ -5,9 +5,16 @@ import second_project.simulation.entities.Entity;
 import second_project.simulation.map.Map;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
-public class CreaturesDistributor extends Action {
-    public CreaturesDistributor(Map map, HashMap<Entity, Integer> resources) {
-        super(map, resources);
+public class CreaturesDistributor extends InitActions {
+    public CreaturesDistributor(Map map) {
+        super(map);
+    }
+
+    @Override
+    public void applyStartPositions() {
+        setHerbivores();
+        setCarnivores();
     }
 }

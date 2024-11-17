@@ -24,4 +24,12 @@ public class Coordinates {
         Coordinates that = (Coordinates) o;
         return abscissa.equals(that.abscissa) && ordinate.equals(that.ordinate);
     }
+
+    @Override
+    public String toString() {
+        return "Coordinates{" +
+                "abscissa=" + abscissa +
+                ", ordinate=" + ordinate +
+                '}';
+    }
 }

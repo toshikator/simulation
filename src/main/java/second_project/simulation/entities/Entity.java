@@ -7,6 +7,10 @@ abstract public class Entity {
     protected String name;
     protected Coordinates coordinates;
 
+    public Entity(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
+
     public String getImg() {
         return img;
     }
