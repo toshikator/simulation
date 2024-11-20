@@ -61,7 +61,11 @@ public abstract class Creature extends Entity {
     public void makeAction() {
         Entity temp = getEatableFood();
         if (Objects.isNull(temp)) {
-            goToMyFood(getClosestFoodCoordinate());
+            try {
+                goToMyFood(getClosestFoodCoordinate());
+            } catch (NullPointerException e) {
+                System.out.println("no way");
+            }
         } else {
             eatMyFood(temp);
         }
@@ -69,6 +73,7 @@ public abstract class Creature extends Entity {
 
     protected void goToMyFood(Coordinates food) {
         AStarTracer tracer = new AStarTracer(map, this, map.getEntityByCoordinates(getClosestFoodCoordinate()));
+        System.out.println("food for " + this.coordinates + " is " + getClosestFoodCoordinate());
         List<NodeOnMap> path = tracer.findPath();
         for (int i = 1; i < speed && path.size() > 1; i++) {
             path.removeFirst();

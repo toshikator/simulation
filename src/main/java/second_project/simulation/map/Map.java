@@ -16,6 +16,7 @@ public class Map {
     }
 
     public static Integer calculateDistance(Coordinates from, Coordinates to) {
+//        System.out.println("distance calculated");
 //        System.out.println(Math.abs(to.abscissa - from.abscissa) + Math.abs(to.ordinate - from.ordinate));
         return (Math.abs(to.abscissa - from.abscissa) + Math.abs(to.ordinate - from.ordinate));
     }

@@ -6,9 +6,9 @@ public final class AppConstants {
     public static final int WORLD_HEIGHT = 10;
     public static final int ROCKS_AMOUNT = 13;
     public static final int TREES_AMOUNT = 13;
-    public static final int GRASS_AMOUNT = 1;
+    public static final int GRASS_AMOUNT = 11;
     public static final int CARNIVORE_AMOUNT = 0;
-    public static final int HERBIVORE_AMOUNT = 1;
+    public static final int HERBIVORE_AMOUNT = 6;
     public static final int CARNIVORE_SPEED = 3;
     public static final int HERBIVORE_SPEED = 4;
     public static final int CARNIVORE_HEALTH = 17;

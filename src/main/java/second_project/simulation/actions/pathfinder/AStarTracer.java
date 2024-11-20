@@ -37,7 +37,7 @@ public class AStarTracer {
         while (!openSet.isEmpty()) {
             NodeOnMap current = openSet.poll();
 
-            if (calculateCost(current, endNode) <= 1) {
+            if (calculateCost(current, endNode) == 1) {
                 return reconstructPath(current);
             }
             closedSet.add(current);
@@ -68,6 +68,9 @@ public class AStarTracer {
         while (current != null) {
             path.add(current);
             current = current.getParent();
+        }
+        if (Objects.isNull(path)) {
+            System.out.println("path is null");
         }
         Collections.reverse(path);
 //        path.forEach(node -> {
