@@ -8,12 +8,12 @@ public class SimulationApplication {
     public static void main(String[] args) {
 
         Map map = new Map();
+        MapUtility.setMap(map);
         Simulation simulation = new Simulation(map);
         simulation.renderMap();
 
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 15; i++) {
             System.out.println();
-//            System.out.close();
             simulation.makeMove();
             simulation.renderMap();
         }

@@ -13,7 +13,7 @@ public class Grass extends Entity {
 
     public Grass(Coordinates coordinates) {
         super(coordinates);
-        this.name = "Grass";
+//        this.name = "Grass";
         this.img = String.valueOf(ConsolePics.GRASS.getPic());
     }
 }

@@ -12,7 +12,7 @@ public class Rock extends Entity {
 
     public Rock(Coordinates coordinates) {
         super(coordinates);
-        this.name = "Rock";
+//        this.name = "Rock";
         this.img = String.valueOf(ConsolePics.ROCK.getPic());
     }
 }

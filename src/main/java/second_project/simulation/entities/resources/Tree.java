@@ -12,7 +12,7 @@ public class Tree extends Entity {
 
     public Tree(Coordinates coordinates) {
         super(coordinates);
-        this.name = "Tree";
+//        this.name = "Tree";
         this.img = String.valueOf(ConsolePics.TREE.getPic());
     }
 }

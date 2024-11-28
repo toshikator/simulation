@@ -1,5 +1,6 @@
 package second_project.simulation.actions.pathfinder;
 
+import second_project.simulation.Coordinates;
 import second_project.simulation.entities.Entity;
 import second_project.simulation.entities.creatures.Creature;
 import second_project.simulation.map.Map;
@@ -10,14 +11,14 @@ public class AStarTracer {
 
     private final Map map;
 
-    private final NodeOnMap startNode;
-    private final NodeOnMap endNode;
+    private final NodeOnMap startCoordinate;
+    private final NodeOnMap endCoordinate;
     private final HashMap<NodeOnMap, Integer> route = new HashMap<>();
 
-    public AStarTracer(Map map, Creature start, Entity finish) {
+    public AStarTracer(Map map, Coordinates start, Coordinates finish) {
         this.map = map;
-        this.startNode = new NodeOnMap(start.getCoordinates());
-        this.endNode = new NodeOnMap(finish.getCoordinates());
+        this.startCoordinate = new NodeOnMap(start);
+        this.endCoordinate = new NodeOnMap(finish);
     }
 
     private Integer calculateCost(NodeOnMap from, NodeOnMap to) {
@@ -28,16 +29,16 @@ public class AStarTracer {
         PriorityQueue<NodeOnMap> openSet = new PriorityQueue<>();
         HashSet<NodeOnMap> closedSet = new HashSet<>();
 
-        startNode.setCostFromStart(0);
-        startNode.setCostToFinish(calculateCost(startNode, endNode));
+        startCoordinate.setCostFromStart(0);
+        startCoordinate.setCostToFinish(calculateCost(startCoordinate, endCoordinate));
 
-        openSet.add(startNode);
-        route.put(startNode, 0);
+        openSet.add(startCoordinate);
+        route.put(startCoordinate, 0);
 
         while (!openSet.isEmpty()) {
             NodeOnMap current = openSet.poll();
 
-            if (calculateCost(current, endNode) == 1) {
+            if (calculateCost(current, endCoordinate) == 1) {
                 return reconstructPath(current);
             }
             closedSet.add(current);
@@ -49,7 +50,7 @@ public class AStarTracer {
                     if (cost < route.getOrDefault(neighbour, Integer.MAX_VALUE)) {
                         neighbour.setParent(current);
                         neighbour.setCostFromStart(cost);
-                        neighbour.setCostToFinish(calculateCost(neighbour, endNode));
+                        neighbour.setCostToFinish(calculateCost(neighbour, endCoordinate));
                         route.put(neighbour, cost);
 
                         if (!openSet.contains(neighbour)) {
@@ -73,9 +74,6 @@ public class AStarTracer {
             System.out.println("path is null");
         }
         Collections.reverse(path);
-//        path.forEach(node -> {
-//            System.out.println(node.getCoordinates());
-//        });
         return path;
     }
 }

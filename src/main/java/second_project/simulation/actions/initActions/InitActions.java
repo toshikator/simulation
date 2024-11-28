@@ -1,6 +1,7 @@
 package second_project.simulation.actions.initActions;
 
 import second_project.simulation.AppConstants;
+import second_project.simulation.MapUtility;
 import second_project.simulation.actions.Action;
 
 import second_project.simulation.entities.creatures.Carnivore;
@@ -45,7 +46,7 @@ public abstract class InitActions extends Action {
     protected void setHerbivores() {
         Herbivore herbivore;
         for (int j = 0; j < AppConstants.HERBIVORE_AMOUNT; j++) {
-            herbivore = new Herbivore(map, map.getEmptyRandomCoordinate());
+            herbivore = new Herbivore(MapUtility.getEmptyRandomCoordinate());
             map.setEntityToCoordinate(herbivore.getCoordinates(), herbivore);
         }
     }
@@ -53,7 +54,7 @@ public abstract class InitActions extends Action {
     protected void setCarnivores() {
         Carnivore carnivore;
         for (int j = 0; j < AppConstants.CARNIVORE_AMOUNT; j++) {
-            carnivore = new Carnivore(map, map.getEmptyRandomCoordinate());
+            carnivore = new Carnivore(MapUtility.getEmptyRandomCoordinate());
             map.setEntityToCoordinate(carnivore.getCoordinates(), carnivore);
         }
     }

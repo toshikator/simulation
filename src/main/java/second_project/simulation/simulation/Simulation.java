@@ -3,6 +3,7 @@ package second_project.simulation.simulation;
 import second_project.simulation.AppConstants;
 import second_project.simulation.actions.initActions.CreaturesDistributor;
 import second_project.simulation.actions.initActions.ResourcesDistributor;
+import second_project.simulation.actions.turnActions.TurnActions;
 import second_project.simulation.entities.Entity;
 import second_project.simulation.entities.creatures.Carnivore;
 import second_project.simulation.entities.creatures.Creature;
@@ -19,9 +20,12 @@ import java.util.HashSet;
 public class Simulation {
     private final Map map;
     private final ConsoleRenderer consoleRenderer;
+    private final TurnActions turnActions;
 
     public Simulation(Map map) {
+
         this.map = map;
+        turnActions = new TurnActions(map);
 
         consoleRenderer = ConsoleRenderer.getInstance();
 
@@ -37,10 +41,11 @@ public class Simulation {
     }
 
     public void makeMove() {
-        map.getEntities().forEach(entity -> {
-            if (entity instanceof Creature) {
-                ((Creature) entity).makeAction();
-            }
-        });
+        turnActions.makeMove();
+//        map.getEntities().forEach(entity -> {
+//            if (entity instanceof Creature) {
+//                ((Creature) entity).makeAction();
+//            }
+//        });
     }
 }

@@ -6,7 +6,6 @@ import second_project.simulation.entities.Entity;
 import second_project.simulation.entities.creatures.Creature;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Map {
     private final HashMap<Coordinates, Entity> map;
@@ -16,29 +15,11 @@ public class Map {
     }
 
     public static Integer calculateDistance(Coordinates from, Coordinates to) {
-//        System.out.println("distance calculated");
-//        System.out.println(Math.abs(to.abscissa - from.abscissa) + Math.abs(to.ordinate - from.ordinate));
         return (Math.abs(to.abscissa - from.abscissa) + Math.abs(to.ordinate - from.ordinate));
     }
 
     public ArrayList<Entity> getEntities() {
-        ArrayList<Entity> entities = new ArrayList<>();
-//        this.map.forEach((key, value) -> entities.add(value));
-        for (Entity entity : map.values()) {
-            entities.add(entity);
-        }
-
-        return entities;
-    }
-
-    protected Entity removeEntityByCoordinates(Coordinates coordinates) {
-        return map.remove(coordinates);
-    }
-
-    public void moveEntity(Coordinates from, Coordinates to) {
-        Entity entity = removeEntityByCoordinates(from);
-        entity.setCoordinates(to);
-        this.setEntityToCoordinate(to, entity);
+        return new ArrayList<>(map.values());
     }
 
     public void removeDeadCreatures() {
@@ -56,20 +37,9 @@ public class Map {
     }
 
     public void setEntityToCoordinate(Coordinates coordinates, Entity entity) {
+        map.remove(entity.getCoordinates());
         entity.setCoordinates(coordinates);
         map.put(coordinates, entity);
-    }
-
-    public void setEntityToRandomEmptyCoordinate(Entity entity) {
-        Coordinates newCoordinate = getEmptyRandomCoordinate();
-        entity.setCoordinates(newCoordinate);
-        setEntityToCoordinate(newCoordinate, entity);
-    }
-
-    private Coordinates getRandomCoordinate() {
-        Integer abscissa = getRandomIntegerInLimit(AppConstants.WORLD_WIDTH);
-        Integer ordinate = getRandomIntegerInLimit(AppConstants.WORLD_HEIGHT);
-        return new Coordinates(abscissa, ordinate);
     }
 
     private Integer getRandomIntegerInLimit(Integer limit) {
@@ -80,7 +50,7 @@ public class Map {
     public Coordinates getEmptyRandomCoordinate() {
         Coordinates randomCoordinate;
         do {
-            randomCoordinate = getRandomCoordinate();
+            randomCoordinate = new Coordinates(getRandomIntegerInLimit(AppConstants.WORLD_WIDTH), getRandomIntegerInLimit(AppConstants.WORLD_HEIGHT));
         } while (map.containsKey(randomCoordinate));
         return randomCoordinate;
     }
