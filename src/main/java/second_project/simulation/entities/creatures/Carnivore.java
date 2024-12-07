@@ -15,12 +15,11 @@ public class Carnivore extends Creature {
 
     public Carnivore(Coordinates coordinates) {
         super(coordinates);
-//        this.name = "Carnivore";
         this.img = String.valueOf(ConsolePics.CARNIVORE.getPic());
         this.speed = AppConstants.CARNIVORE_SPEED;
         this.health = AppConstants.CARNIVORE_HEALTH;
         this.strength = AppConstants.CARNIVORE_STRENGTH;
-        this.foodType = FoodTypesForCreatures.CarnivoreFood.getFood();
+        this.foodType = Creature.class;
     }
 
     @Override

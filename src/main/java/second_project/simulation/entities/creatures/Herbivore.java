@@ -6,19 +6,15 @@ import second_project.simulation.Coordinates;
 
 import second_project.simulation.entities.Entity;
 import second_project.simulation.entities.FoodTypesForCreatures;
-import second_project.simulation.map.Map;
-
-import java.util.ArrayList;
-import java.util.Set;
+import second_project.simulation.entities.resources.Grass;
 
 public class Herbivore extends Creature {
     public Herbivore(Coordinates coordinates) {
         super(coordinates);
-//        this.name = "Herbivore";
         this.img = String.valueOf(ConsolePics.HERBIVORE.getPic());
         this.speed = AppConstants.HERBIVORE_SPEED;
         this.health = AppConstants.HERBIVORE_HEALTH;
-        this.foodType = FoodTypesForCreatures.HerbivoreFood.getFood();
+        this.foodType = Grass.class;
     }
 
     @Override

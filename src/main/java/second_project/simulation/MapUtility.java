@@ -4,6 +4,7 @@ import second_project.simulation.entities.Entity;
 import second_project.simulation.map.Map;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapUtility {
 
@@ -39,5 +40,9 @@ public class MapUtility {
 
     public static ArrayList<Entity> getEntities() {
         return map.getEntities();
+    }
+
+    public static List<Coordinates> getAvailableMoveCoordinates(Coordinates coordinates) {
+        return map.getAvailableMoveCoordinates(coordinates);
     }
 }

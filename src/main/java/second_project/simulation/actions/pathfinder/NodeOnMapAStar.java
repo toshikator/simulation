@@ -4,18 +4,18 @@ import second_project.simulation.Coordinates;
 
 import java.util.Objects;
 
-public class NodeOnMap implements Comparable<NodeOnMap> {
+public class NodeOnMapAStar implements Comparable<NodeOnMapAStar> {
     private final Coordinates coordinates;
     private Integer costFromStart;
     private Integer costToFinish;
-    private NodeOnMap parent;
+    private NodeOnMapAStar parent;
 
-    public NodeOnMap(Coordinates coordinates, NodeOnMap parent) {
+    public NodeOnMapAStar(Coordinates coordinates, NodeOnMapAStar parent) {
         this.coordinates = coordinates;
         this.parent = parent;
     }
 
-    public NodeOnMap(Coordinates coordinates) {
+    public NodeOnMapAStar(Coordinates coordinates) {
         this.coordinates = coordinates;
         this.parent = null;
     }
@@ -40,11 +40,11 @@ public class NodeOnMap implements Comparable<NodeOnMap> {
         this.costToFinish = costToFinish;
     }
 
-    public NodeOnMap getParent() {
+    public NodeOnMapAStar getParent() {
         return parent;
     }
 
-    public void setParent(NodeOnMap parent) {
+    public void setParent(NodeOnMapAStar parent) {
         this.parent = parent;
     }
 
@@ -53,7 +53,7 @@ public class NodeOnMap implements Comparable<NodeOnMap> {
     }
 
     @Override
-    public int compareTo(NodeOnMap other) {
+    public int compareTo(NodeOnMapAStar other) {
         return Integer.compare(this.getCost(), other.getCost());
     }
 
@@ -69,6 +69,6 @@ public class NodeOnMap implements Comparable<NodeOnMap> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        return Objects.equals(this.coordinates.abscissa, ((NodeOnMap) o).coordinates.abscissa) && Objects.equals(this.coordinates.ordinate, ((NodeOnMap) o).coordinates.ordinate);
+        return Objects.equals(this.coordinates.abscissa, ((NodeOnMapAStar) o).coordinates.abscissa) && Objects.equals(this.coordinates.ordinate, ((NodeOnMapAStar) o).coordinates.ordinate);
     }
 }
