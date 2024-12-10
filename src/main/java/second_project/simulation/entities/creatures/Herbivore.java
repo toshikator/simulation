@@ -5,7 +5,6 @@ import second_project.simulation.ConsolePics;
 import second_project.simulation.Coordinates;
 
 import second_project.simulation.entities.Entity;
-import second_project.simulation.entities.FoodTypesForCreatures;
 import second_project.simulation.entities.resources.Grass;
 
 public class Herbivore extends Creature {

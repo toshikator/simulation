@@ -10,6 +10,6 @@ public class TurnActions extends Action {
     }
 
     public void makeMove() {
-        map.getEntities().stream().filter(e -> e instanceof Creature creature).forEach(e -> ((Creature) e).makeAction());
+        map.getEntities().stream().filter(e -> e instanceof Creature).forEach(e -> ((Creature) e).makeAction());
     }
 }

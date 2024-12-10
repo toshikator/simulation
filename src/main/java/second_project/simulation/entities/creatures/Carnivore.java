@@ -5,10 +5,6 @@ import second_project.simulation.ConsolePics;
 import second_project.simulation.Coordinates;
 import second_project.simulation.MapUtility;
 import second_project.simulation.entities.Entity;
-import second_project.simulation.entities.FoodTypesForCreatures;
-import second_project.simulation.map.Map;
-
-import java.util.ArrayList;
 
 public class Carnivore extends Creature {
     private final Integer strength;

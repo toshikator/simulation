@@ -6,6 +6,7 @@ import second_project.simulation.entities.Entity;
 import second_project.simulation.entities.creatures.Creature;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Map {
     private final HashMap<Coordinates, Entity> map;
@@ -56,23 +57,16 @@ public class Map {
     }
 
     public boolean isCoordinateOnMap(Coordinates coordinates) {
-        return coordinates.abscissa > 0 && coordinates.ordinate > 0 && coordinates.abscissa < AppConstants.WORLD_WIDTH && coordinates.ordinate < AppConstants.WORLD_HEIGHT;
+        return coordinates.abscissa >= 0 && coordinates.ordinate >= 0 && coordinates.abscissa < AppConstants.WORLD_WIDTH && coordinates.ordinate < AppConstants.WORLD_HEIGHT;
     }
 
     public List<Coordinates> getAvailableMoveCoordinates(Coordinates coordinates) {
-        List<Coordinates> availableCoordinates = new ArrayList<>();
-        for (int i = coordinates.abscissa - 1; i < coordinates.abscissa + 2; i++) {
-            for (int j = coordinates.ordinate - 1; j < coordinates.ordinate + 2; j++) {
-                Coordinates tempCoordinates = new Coordinates(i, j);
-                if (isCoordinateOnMap(tempCoordinates)) {
-                    if (isCoordinateEmpty(tempCoordinates)) {
-                        if (!Objects.equals(tempCoordinates.abscissa, coordinates.abscissa) || !Objects.equals(tempCoordinates.ordinate, coordinates.ordinate)) {
-                            availableCoordinates.add(tempCoordinates);
-                        }
-                    }
-                }
-            }
-        }
-        return availableCoordinates;
+        Coordinates[] variants = {
+                new Coordinates(coordinates.abscissa + 1, coordinates.ordinate),
+                new Coordinates(coordinates.abscissa - 1, coordinates.ordinate),
+                new Coordinates(coordinates.abscissa, coordinates.ordinate + 1),
+                new Coordinates(coordinates.abscissa, coordinates.ordinate - 1),
+        };
+        return Arrays.stream(variants).filter(e -> isCoordinateOnMap(e) && isCoordinateEmpty(e)).collect(Collectors.toList());
     }
 }

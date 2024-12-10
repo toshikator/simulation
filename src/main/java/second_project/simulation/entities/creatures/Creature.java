@@ -29,10 +29,7 @@ public abstract class Creature extends Entity {
     }
 
     protected Coordinates getClosestFoodCoordinate() {
-//        System.out.println("Creature food type = " + foodType);
         BFS bfs = new BFS(this.coordinates, foodType);
-        System.out.println("lolo");
-        System.out.println("food finder " + bfs.findFood());
         return bfs.findFood();
     }
 
@@ -52,7 +49,8 @@ public abstract class Creature extends Entity {
         Entity temp = getEatableFood();
         if (Objects.isNull(temp)) {
             try {
-                goToMyFood(getClosestFoodCoordinate());
+                Coordinates foodCoordinates = getClosestFoodCoordinate();
+                goToMyFood(foodCoordinates);
             } catch (NullPointerException e) {
                 System.out.println("no way");
             }
@@ -62,8 +60,8 @@ public abstract class Creature extends Entity {
     }
 
     protected void goToMyFood(Coordinates foodCoordinates) {
-        AStarTracer tracer = new AStarTracer(MapUtility.getMap(), this.coordinates, MapUtility.getEntityByCoordinates(getClosestFoodCoordinate()).getCoordinates());
-        System.out.println("food for " + this.coordinates + " is " + getClosestFoodCoordinate());
+        AStarTracer tracer = new AStarTracer(MapUtility.getMap(), this.coordinates, foodCoordinates);
+//        System.out.println("food for " + this.coordinates + " is " + getClosestFoodCoordinate());
         List<NodeOnMapAStar> path = tracer.findPath();
         for (int i = 1; i < speed && path.size() > 1; i++) {
             path.removeFirst();
