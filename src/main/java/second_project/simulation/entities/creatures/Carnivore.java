@@ -11,24 +11,24 @@ public class Carnivore extends Creature {
 
     public Carnivore(Coordinates coordinates) {
         super(coordinates);
-        this.img = String.valueOf(ConsolePics.CARNIVORE.getPic());
-        this.speed = AppConstants.CARNIVORE_SPEED;
-        this.health = AppConstants.CARNIVORE_HEALTH;
-        this.strength = AppConstants.CARNIVORE_STRENGTH;
-        this.foodType = Creature.class;
+        img = String.valueOf(ConsolePics.CARNIVORE.getPic());
+        speed = AppConstants.CARNIVORE_SPEED;
+        health = AppConstants.CARNIVORE_HEALTH;
+        strength = AppConstants.CARNIVORE_STRENGTH;
+        foodType = Herbivore.class;
     }
 
     @Override
-    protected Coordinates getClosestFoodCoordinate() {
-        return null;
-    }
-
-    @Override
-    protected void eatMyFood(Entity food) {
-
+    protected void biteMyFood(Entity food) {
+        if (health < AppConstants.CARNIVORE_HEALTH) {
+            health++;
+        }
+        biteCreatureOnCoordinate(food.getCoordinates());
+//        System.out.println("damage given");
     }
 
     public void biteCreatureOnCoordinate(Coordinates coordinates) {
         ((Creature) MapUtility.getEntityByCoordinates(coordinates)).getDamage(this.strength);
+//        System.out.println("food bitten by CARNIVORE");
     }
 }

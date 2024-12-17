@@ -5,15 +5,14 @@ import second_project.simulation.MapUtility;
 import second_project.simulation.entities.Entity;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
-public class BFS {
+public class ClosestFoodFinder {
     Coordinates start;
     Class foodType;
     Queue<Coordinates> openSet;
     HashSet<Coordinates> closedSet;
 
-    public BFS(Coordinates start, Class foodType) {
+    public ClosestFoodFinder(Coordinates start, Class foodType) {
         this.start = start;
         this.foodType = foodType;
         openSet = new ArrayDeque<>();
@@ -21,13 +20,7 @@ public class BFS {
     }
 
     protected Entity getEatableFood(Coordinates coordinates) {
-        Coordinates[] variants = {
-                new Coordinates(coordinates.abscissa + 1, coordinates.ordinate),
-                new Coordinates(coordinates.abscissa - 1, coordinates.ordinate),
-                new Coordinates(coordinates.abscissa, coordinates.ordinate + 1),
-                new Coordinates(coordinates.abscissa, coordinates.ordinate - 1),
-        };
-
+        Coordinates[] variants = MapUtility.getNeighboursCoordinates(coordinates);
         Optional<Coordinates> foodCoordinates = Arrays.stream(variants).filter(c -> MapUtility.isCoordinateOnMap(c) && !MapUtility.isCoordinateEmpty(c) && MapUtility.getEntityByCoordinates(c)
                 .getClass().equals(foodType)).findAny();
         return foodCoordinates.map(MapUtility::getEntityByCoordinates).orElse(null);

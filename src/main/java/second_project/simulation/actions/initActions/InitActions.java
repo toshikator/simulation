@@ -9,12 +9,12 @@ import second_project.simulation.entities.creatures.Herbivore;
 import second_project.simulation.entities.resources.Grass;
 import second_project.simulation.entities.resources.Rock;
 import second_project.simulation.entities.resources.Tree;
-import second_project.simulation.map.Map;
+import second_project.simulation.map.SimulationMap;
 
 public abstract class InitActions extends Action {
 
-    protected InitActions(Map map) {
-        super(map);
+    protected InitActions(SimulationMap simulationMap) {
+        super(simulationMap);
     }
 
     public abstract void applyStartPositions();
@@ -22,24 +22,24 @@ public abstract class InitActions extends Action {
     protected void setGrass() {
         Grass grass;
         for (int j = 0; j < AppConstants.GRASS_AMOUNT; j++) {
-            grass = new Grass(map.getEmptyRandomCoordinate());
-            map.setEntityToCoordinate(grass.getCoordinates(), grass);
+            grass = new Grass(simulationMap.getEmptyRandomCoordinate());
+            simulationMap.setEntityToCoordinate(grass.getCoordinates(), grass);
         }
     }
 
     protected void setRocks() {
         Rock rock;
         for (int j = 0; j < AppConstants.ROCKS_AMOUNT; j++) {
-            rock = new Rock(map.getEmptyRandomCoordinate());
-            map.setEntityToCoordinate(rock.getCoordinates(), rock);
+            rock = new Rock(simulationMap.getEmptyRandomCoordinate());
+            simulationMap.setEntityToCoordinate(rock.getCoordinates(), rock);
         }
     }
 
     protected void setTrees() {
         Tree tree;
         for (int j = 0; j < AppConstants.TREES_AMOUNT; j++) {
-            tree = new Tree(map.getEmptyRandomCoordinate());
-            map.setEntityToCoordinate(tree.getCoordinates(), tree);
+            tree = new Tree(simulationMap.getEmptyRandomCoordinate());
+            simulationMap.setEntityToCoordinate(tree.getCoordinates(), tree);
         }
     }
 
@@ -47,7 +47,7 @@ public abstract class InitActions extends Action {
         Herbivore herbivore;
         for (int j = 0; j < AppConstants.HERBIVORE_AMOUNT; j++) {
             herbivore = new Herbivore(MapUtility.getEmptyRandomCoordinate());
-            map.setEntityToCoordinate(herbivore.getCoordinates(), herbivore);
+            simulationMap.setEntityToCoordinate(herbivore.getCoordinates(), herbivore);
         }
     }
 
@@ -55,7 +55,7 @@ public abstract class InitActions extends Action {
         Carnivore carnivore;
         for (int j = 0; j < AppConstants.CARNIVORE_AMOUNT; j++) {
             carnivore = new Carnivore(MapUtility.getEmptyRandomCoordinate());
-            map.setEntityToCoordinate(carnivore.getCoordinates(), carnivore);
+            simulationMap.setEntityToCoordinate(carnivore.getCoordinates(), carnivore);
         }
     }
 }

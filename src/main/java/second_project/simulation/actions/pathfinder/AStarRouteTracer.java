@@ -1,25 +1,25 @@
 package second_project.simulation.actions.pathfinder;
 
 import second_project.simulation.Coordinates;
-import second_project.simulation.map.Map;
+import second_project.simulation.map.SimulationMap;
 
 import java.util.*;
 
-public class AStarTracer {
+public class AStarRouteTracer {
 
-    private final Map map;
+    private final SimulationMap simulationMap;
     private final NodeOnMapAStar startCoordinate;
     private final NodeOnMapAStar endCoordinate;
     private final HashMap<NodeOnMapAStar, Integer> route = new HashMap<>();
 
-    public AStarTracer(Map map, Coordinates start, Coordinates finish) {
-        this.map = map;
+    public AStarRouteTracer(SimulationMap simulationMap, Coordinates start, Coordinates finish) {
+        this.simulationMap = simulationMap;
         this.startCoordinate = new NodeOnMapAStar(start);
         this.endCoordinate = new NodeOnMapAStar(finish);
     }
 
     private Integer calculateCost(NodeOnMapAStar from, NodeOnMapAStar to) {
-        return Map.calculateDistance(from.getCoordinates(), to.getCoordinates());
+        return SimulationMap.calculateDistance(from.getCoordinates(), to.getCoordinates());
     }
 
     public List<NodeOnMapAStar> findPath() {
@@ -40,7 +40,7 @@ public class AStarTracer {
             }
             closedSet.add(current);
 
-            map.getAvailableMoveCoordinates(current.getCoordinates()).forEach(c -> {
+            simulationMap.getAvailableMoveCoordinates(current.getCoordinates()).forEach(c -> {
                 NodeOnMapAStar neighbour = new NodeOnMapAStar(c);
                 if (!closedSet.contains(neighbour)) {
                     Integer cost = current.getCostFromStart() + calculateCost(current, neighbour);

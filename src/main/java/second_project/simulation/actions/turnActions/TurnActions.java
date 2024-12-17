@@ -2,14 +2,14 @@ package second_project.simulation.actions.turnActions;
 
 import second_project.simulation.actions.Action;
 import second_project.simulation.entities.creatures.Creature;
-import second_project.simulation.map.Map;
+import second_project.simulation.map.SimulationMap;
 
 public class TurnActions extends Action {
-    public TurnActions(Map map) {
-        super(map);
+    public TurnActions(SimulationMap simulationMap) {
+        super(simulationMap);
     }
 
     public void makeMove() {
-        map.getEntities().stream().filter(e -> e instanceof Creature).forEach(e -> ((Creature) e).makeAction());
+        simulationMap.getEntities().stream().filter(e -> e instanceof Creature).forEach(e -> ((Creature) e).makeAction());
     }
 }

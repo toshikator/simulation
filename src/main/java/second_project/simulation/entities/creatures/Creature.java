@@ -2,17 +2,15 @@ package second_project.simulation.entities.creatures;
 
 import second_project.simulation.Coordinates;
 import second_project.simulation.MapUtility;
-import second_project.simulation.actions.foodFinder.BFS;
-import second_project.simulation.actions.pathfinder.AStarTracer;
+import second_project.simulation.actions.foodFinder.ClosestFoodFinder;
+import second_project.simulation.actions.pathfinder.AStarRouteTracer;
 import second_project.simulation.actions.pathfinder.NodeOnMapAStar;
 import second_project.simulation.entities.Entity;
-import second_project.simulation.map.Map;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 public abstract class Creature extends Entity {
-    public boolean isDead;
+    protected boolean isDead;
     protected Integer speed;
     protected Integer health;
     protected Class foodType;
@@ -21,27 +19,29 @@ public abstract class Creature extends Entity {
         super(coordinates);
     }
 
+    public boolean isDead() {
+        return isDead;
+    }
+
     public void getDamage(int damage) {
-        this.health -= damage;
-        if (this.health <= 0) {
+        health -= damage;
+//        System.out.println(health);
+        if (health <= 0) {
             dead();
         }
+//        System.out.println("damage taken");
     }
 
     protected Coordinates getClosestFoodCoordinate() {
-        BFS bfs = new BFS(this.coordinates, foodType);
-        return bfs.findFood();
+        ClosestFoodFinder closestFoodFinder = new ClosestFoodFinder(coordinates, foodType);
+        return closestFoodFinder.findFood();
     }
 
     protected Entity getEatableFood() {
-        Coordinates[] variants = {
-                new Coordinates(this.coordinates.abscissa + 1, this.coordinates.ordinate),
-                new Coordinates(this.coordinates.abscissa - 1, this.coordinates.ordinate),
-                new Coordinates(this.coordinates.abscissa, this.coordinates.ordinate + 1),
-                new Coordinates(this.coordinates.abscissa, this.coordinates.ordinate - 1),
-        };
+        Coordinates[] variants = MapUtility.getNeighboursCoordinates(coordinates);
 
-        Optional<Coordinates> foodCoordinates = Arrays.stream(variants).filter(coordinates -> MapUtility.isCoordinateOnMap(coordinates) && !MapUtility.isCoordinateEmpty(coordinates) && MapUtility.getEntityByCoordinates(coordinates).getClass().equals(foodType)).findAny();
+        Optional<Coordinates> foodCoordinates = Arrays.stream(variants).filter(coordinates -> MapUtility.isCoordinateOnMap(coordinates)
+                && !MapUtility.isCoordinateEmpty(coordinates) && MapUtility.getEntityByCoordinates(coordinates).getClass().equals(foodType)).findAny();
         return foodCoordinates.map(MapUtility::getEntityByCoordinates).orElse(null);
     }
 
@@ -55,13 +55,12 @@ public abstract class Creature extends Entity {
                 System.out.println("no way");
             }
         } else {
-            eatMyFood(temp);
+            biteMyFood(temp);
         }
     }
 
     protected void goToMyFood(Coordinates foodCoordinates) {
-        AStarTracer tracer = new AStarTracer(MapUtility.getMap(), this.coordinates, foodCoordinates);
-//        System.out.println("food for " + this.coordinates + " is " + getClosestFoodCoordinate());
+        AStarRouteTracer tracer = new AStarRouteTracer(MapUtility.getMap(), coordinates, foodCoordinates);
         List<NodeOnMapAStar> path = tracer.findPath();
         for (int i = 1; i < speed && path.size() > 1; i++) {
             path.removeFirst();
@@ -69,9 +68,10 @@ public abstract class Creature extends Entity {
         MapUtility.setEntityToCoordinate(path.getFirst().getCoordinates(), this);
     }
 
-    protected abstract void eatMyFood(Entity food);
+    protected abstract void biteMyFood(Entity food);
 
     public void dead() {
-        this.isDead = true;
+//        System.out.println(isDead());
+        isDead = true;
     }
 }

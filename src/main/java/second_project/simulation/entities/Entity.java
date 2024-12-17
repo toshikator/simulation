@@ -4,7 +4,6 @@ import second_project.simulation.Coordinates;
 
 abstract public class Entity {
     protected String img;
-    //    protected String name;
     protected Coordinates coordinates;
 
     public Entity(Coordinates coordinates) {
@@ -14,10 +13,6 @@ abstract public class Entity {
     public String getImg() {
         return img;
     }
-
-//    public String getName() {
-//        return name;
-//    }
 
     public Coordinates getCoordinates() {
         return coordinates;

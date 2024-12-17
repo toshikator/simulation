@@ -6,7 +6,8 @@ public enum ConsolePics {
     TREE("\uD83C\uDF33 "),
     ROCK("⛰️ "),
     GRASS("\uD83C\uDF31"),
-    TILE("\uD83D\uDD32");
+    //    TILE("\uD83D\uDD32");
+    TILE("\u2B1B");
 
     private final String pic;
 

@@ -2,16 +2,17 @@ package second_project.simulation.map;
 
 import second_project.simulation.AppConstants;
 import second_project.simulation.Coordinates;
+import second_project.simulation.MapUtility;
 import second_project.simulation.entities.Entity;
 import second_project.simulation.entities.creatures.Creature;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Map {
+public class SimulationMap {
     private final HashMap<Coordinates, Entity> map;
 
-    public Map() {
+    public SimulationMap() {
         this.map = new HashMap<>();
     }
 
@@ -23,10 +24,14 @@ public class Map {
         return new ArrayList<>(map.values());
     }
 
+    private Entity removeEntity(Entity entity) {
+        return map.remove(entity.getCoordinates());
+    }
+
     public void removeDeadCreatures() {
-        map.forEach((coordinates, entity) -> {
-            if (((Creature) entity).isDead) map.remove(coordinates);
-        });
+        Set<Coordinates> tempSet = map.values().stream().filter(e -> e instanceof Creature).filter(e -> ((Creature) e).isDead()).map(e -> e.getCoordinates()).collect(Collectors.toSet());
+        tempSet.forEach(map::remove);
+//        HashMap<Coordinates, Entity> deadList = map.entrySet().stream().filter((e) -> e.getValue() instanceof Creature).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     public boolean isCoordinateEmpty(Coordinates coordinates) {
@@ -61,12 +66,7 @@ public class Map {
     }
 
     public List<Coordinates> getAvailableMoveCoordinates(Coordinates coordinates) {
-        Coordinates[] variants = {
-                new Coordinates(coordinates.abscissa + 1, coordinates.ordinate),
-                new Coordinates(coordinates.abscissa - 1, coordinates.ordinate),
-                new Coordinates(coordinates.abscissa, coordinates.ordinate + 1),
-                new Coordinates(coordinates.abscissa, coordinates.ordinate - 1),
-        };
+        Coordinates[] variants = MapUtility.getNeighboursCoordinates(coordinates);
         return Arrays.stream(variants).filter(e -> isCoordinateOnMap(e) && isCoordinateEmpty(e)).collect(Collectors.toList());
     }
 }
