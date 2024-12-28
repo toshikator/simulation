@@ -10,6 +10,6 @@ public class TurnActions extends Action {
     }
 
     public void makeMove() {
-        simulationMap.getEntities().stream().filter(e -> e instanceof Creature).forEach(e -> ((Creature) e).makeAction());
+        simulationMap.getEntities().stream().parallel().filter(e -> e instanceof Creature && !((Creature) e).isDead()).forEach(e -> ((Creature) e).makeAction());
     }
 }

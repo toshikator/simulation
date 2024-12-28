@@ -21,7 +21,6 @@ public class Herbivore extends Creature {
         if (health < AppConstants.HERBIVORE_HEALTH) {
             health++;
         }
-//        System.out.println("HERBIVORE fed");
     }
 }
 

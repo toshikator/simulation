@@ -24,11 +24,9 @@ public class Carnivore extends Creature {
             health++;
         }
         biteCreatureOnCoordinate(food.getCoordinates());
-//        System.out.println("damage given");
     }
 
     public void biteCreatureOnCoordinate(Coordinates coordinates) {
         ((Creature) MapUtility.getEntityByCoordinates(coordinates)).getDamage(this.strength);
-//        System.out.println("food bitten by CARNIVORE");
     }
 }

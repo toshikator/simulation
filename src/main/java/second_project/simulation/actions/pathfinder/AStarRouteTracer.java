@@ -1,9 +1,12 @@
 package second_project.simulation.actions.pathfinder;
 
 import second_project.simulation.Coordinates;
+import second_project.simulation.MapUtility;
 import second_project.simulation.map.SimulationMap;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class AStarRouteTracer {
 
@@ -19,12 +22,12 @@ public class AStarRouteTracer {
     }
 
     private Integer calculateCost(NodeOnMapAStar from, NodeOnMapAStar to) {
-        return SimulationMap.calculateDistance(from.getCoordinates(), to.getCoordinates());
+        return MapUtility.calculateDistance(from.getCoordinates(), to.getCoordinates());
     }
 
     public List<NodeOnMapAStar> findPath() {
-        PriorityQueue<NodeOnMapAStar> openSet = new PriorityQueue<>();
-        HashSet<NodeOnMapAStar> closedSet = new HashSet<>();
+        ConcurrentLinkedQueue<NodeOnMapAStar> openSet = new ConcurrentLinkedQueue<>();
+        CopyOnWriteArraySet<NodeOnMapAStar> closedSet = new CopyOnWriteArraySet<>();
 
         startCoordinate.setCostFromStart(0);
         startCoordinate.setCostToFinish(calculateCost(startCoordinate, endCoordinate));
@@ -40,7 +43,7 @@ public class AStarRouteTracer {
             }
             closedSet.add(current);
 
-            simulationMap.getAvailableMoveCoordinates(current.getCoordinates()).forEach(c -> {
+            simulationMap.getAvailableMoveCoordinates(current.getCoordinates()).stream().parallel().forEach(c -> {
                 NodeOnMapAStar neighbour = new NodeOnMapAStar(c);
                 if (!closedSet.contains(neighbour)) {
                     Integer cost = current.getCostFromStart() + calculateCost(current, neighbour);

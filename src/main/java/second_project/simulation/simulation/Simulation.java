@@ -12,9 +12,9 @@ public class Simulation {
     private final ConsoleRenderer consoleRenderer;
     private final TurnActions turnActions;
 
-    public Simulation(SimulationMap simulationMap) {
+    public Simulation() {
 
-        this.simulationMap = simulationMap;
+        this.simulationMap = SimulationMap.getInstance();
         turnActions = new TurnActions(simulationMap);
 
         simulationMap.removeDeadCreatures();

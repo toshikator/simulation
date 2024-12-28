@@ -9,9 +9,9 @@ public class SimulationApplication {
 
     public static void main(String[] args) {
 
-        SimulationMap simulationMap = new SimulationMap();
-        MapUtility.setMap(simulationMap);
-        Simulation simulation = new Simulation(simulationMap);
+        SimulationMap simulationMap = SimulationMap.getInstance();
+//        MapUtility.setMap(simulationMap);
+        Simulation simulation = new Simulation();
         simulation.renderMap();
 
         for (int i = 0; i < GAME_TURNS; i++) {

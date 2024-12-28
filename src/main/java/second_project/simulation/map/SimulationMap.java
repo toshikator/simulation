@@ -7,29 +7,35 @@ import second_project.simulation.entities.Entity;
 import second_project.simulation.entities.creatures.Creature;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class SimulationMap {
-    private final HashMap<Coordinates, Entity> map;
+    private static volatile SimulationMap instance;
+    private final ConcurrentHashMap<Coordinates, Entity> map;
 
-    public SimulationMap() {
-        this.map = new HashMap<>();
+    private SimulationMap() {
+        this.map = new ConcurrentHashMap<>();
     }
 
-    public static Integer calculateDistance(Coordinates from, Coordinates to) {
-        return (Math.abs(to.abscissa - from.abscissa) + Math.abs(to.ordinate - from.ordinate));
+    public static SimulationMap getInstance() {
+        if (instance == null) {
+            synchronized (SimulationMap.class) {
+                if (instance == null) {
+                    instance = new SimulationMap();
+                }
+            }
+        }
+        return instance;
     }
 
-    public ArrayList<Entity> getEntities() {
-        return new ArrayList<>(map.values());
-    }
-
-    private Entity removeEntity(Entity entity) {
-        return map.remove(entity.getCoordinates());
+    public CopyOnWriteArrayList<Entity> getEntities() {
+        return new CopyOnWriteArrayList<>(map.values());
     }
 
     public void removeDeadCreatures() {
-        Set<Coordinates> tempSet = map.values().stream().filter(e -> e instanceof Creature).filter(e -> ((Creature) e).isDead()).map(e -> e.getCoordinates()).collect(Collectors.toSet());
+        Set<Coordinates> tempSet = map.values().parallelStream().filter(e -> e instanceof Creature).filter(e -> ((Creature) e).isDead()).map(e -> e.getCoordinates()).collect(Collectors.toSet());
         tempSet.forEach(map::remove);
 //        HashMap<Coordinates, Entity> deadList = map.entrySet().stream().filter((e) -> e.getValue() instanceof Creature).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
@@ -66,7 +72,7 @@ public class SimulationMap {
     }
 
     public List<Coordinates> getAvailableMoveCoordinates(Coordinates coordinates) {
-        Coordinates[] variants = MapUtility.getNeighboursCoordinates(coordinates);
-        return Arrays.stream(variants).filter(e -> isCoordinateOnMap(e) && isCoordinateEmpty(e)).collect(Collectors.toList());
+        CopyOnWriteArrayList<Coordinates> variants = new CopyOnWriteArrayList<>(MapUtility.getNeighboursCoordinates(coordinates));
+        return variants.stream().parallel().filter(e -> isCoordinateOnMap(e) && isCoordinateEmpty(e)).collect(Collectors.toList());
     }
 }

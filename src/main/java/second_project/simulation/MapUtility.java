@@ -5,13 +5,18 @@ import second_project.simulation.map.SimulationMap;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MapUtility {
 
-    private static SimulationMap simulationMap;
+    private static final SimulationMap simulationMap = SimulationMap.getInstance();
 
     public static boolean isCoordinateEmpty(Coordinates coordinates) {
         return simulationMap.isCoordinateEmpty(coordinates);
+    }
+
+    public static Integer calculateDistance(Coordinates from, Coordinates to) {
+        return (Math.abs(to.abscissa - from.abscissa) + Math.abs(to.ordinate - from.ordinate));
     }
 
     public static Entity getEntityByCoordinates(Coordinates coordinates) {
@@ -30,15 +35,11 @@ public class MapUtility {
         return simulationMap;
     }
 
-    public static void setMap(SimulationMap simulationMap) {
-        MapUtility.simulationMap = simulationMap;
-    }
-
     public static Coordinates getEmptyRandomCoordinate() {
         return simulationMap.getEmptyRandomCoordinate();
     }
 
-    public static ArrayList<Entity> getEntities() {
+    public static CopyOnWriteArrayList<Entity> getEntities() {
         return simulationMap.getEntities();
     }
 
@@ -46,12 +47,13 @@ public class MapUtility {
         return simulationMap.getAvailableMoveCoordinates(coordinates);
     }
 
-    public static Coordinates[] getNeighboursCoordinates(Coordinates coordinates) {
-        return new Coordinates[]{
-                new Coordinates(coordinates.abscissa + 1, coordinates.ordinate),
-                new Coordinates(coordinates.abscissa - 1, coordinates.ordinate),
-                new Coordinates(coordinates.abscissa, coordinates.ordinate + 1),
-                new Coordinates(coordinates.abscissa, coordinates.ordinate - 1),
-        };
+    public static CopyOnWriteArrayList<Coordinates> getNeighboursCoordinates(Coordinates coordinates) {
+        CopyOnWriteArrayList<Coordinates> result = new CopyOnWriteArrayList<>();
+        result.add(new Coordinates(coordinates.abscissa + 1, coordinates.ordinate));
+        result.add(new Coordinates(coordinates.abscissa - 1, coordinates.ordinate));
+        result.add(new Coordinates(coordinates.abscissa, coordinates.ordinate + 1));
+        result.add(new Coordinates(coordinates.abscissa, coordinates.ordinate - 1));
+
+        return result;
     }
 }
