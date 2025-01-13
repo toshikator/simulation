@@ -1,6 +1,6 @@
 package second_project.simulation.map;
 
-import second_project.simulation.AppConstants;
+import second_project.simulation.AppSettings;
 import second_project.simulation.Coordinates;
 import second_project.simulation.MapUtility;
 import second_project.simulation.entities.Entity;
@@ -14,9 +14,13 @@ import java.util.stream.Collectors;
 public class SimulationMap {
     private static volatile SimulationMap instance;
     private final ConcurrentHashMap<Coordinates, Entity> map;
+    private final int worldHeight;
+    private final int worldWidth;
 
     private SimulationMap() {
         this.map = new ConcurrentHashMap<>();
+        worldHeight = AppSettings.WORLD_HEIGHT;
+        worldWidth = AppSettings.WORLD_WIDTH;
     }
 
     public static SimulationMap getInstance() {
@@ -62,13 +66,13 @@ public class SimulationMap {
     public Coordinates getEmptyRandomCoordinate() {
         Coordinates randomCoordinate;
         do {
-            randomCoordinate = new Coordinates(getRandomIntegerInLimit(AppConstants.WORLD_WIDTH), getRandomIntegerInLimit(AppConstants.WORLD_HEIGHT));
+            randomCoordinate = new Coordinates(getRandomIntegerInLimit(AppSettings.WORLD_WIDTH), getRandomIntegerInLimit(AppSettings.WORLD_HEIGHT));
         } while (map.containsKey(randomCoordinate));
         return randomCoordinate;
     }
 
     public boolean isCoordinateOnMap(Coordinates coordinates) {
-        return coordinates.abscissa >= 0 && coordinates.ordinate >= 0 && coordinates.abscissa < AppConstants.WORLD_WIDTH && coordinates.ordinate < AppConstants.WORLD_HEIGHT;
+        return coordinates.abscissa >= 0 && coordinates.ordinate >= 0 && coordinates.abscissa < AppSettings.WORLD_WIDTH && coordinates.ordinate < AppSettings.WORLD_HEIGHT;
     }
 
     public List<Coordinates> getAvailableMoveCoordinates(Coordinates coordinates) {

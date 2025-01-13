@@ -31,16 +31,18 @@ public class ClosestFoodFinder {
     }
 
     public Coordinates findFood() {
-        openSet.add(start);
-        Coordinates currentNode;
-        Entity food;
-        while (!openSet.isEmpty()) {
-            currentNode = openSet.poll();
-            closedSet.add(currentNode);
-            MapUtility.getAvailableMoveCoordinates(currentNode).stream().parallel().filter(e -> !closedSet.contains(e)).forEach(e -> openSet.add(e));
-            food = getEatableFood(currentNode);
-            if (!Objects.isNull(food)) {
-                return food.getCoordinates();
+        if (MapUtility.getEntities().stream().anyMatch(e -> e.getClass().equals(foodType))) {
+            openSet.add(start);
+            Coordinates currentNode;
+            Entity food;
+            while (!openSet.isEmpty()) {
+                currentNode = openSet.poll();
+                closedSet.add(currentNode);
+                MapUtility.getAvailableMoveCoordinates(currentNode).stream().parallel().filter(e -> !closedSet.contains(e)).forEach(e -> openSet.add(e));
+                food = getEatableFood(currentNode);
+                if (!Objects.isNull(food)) {
+                    return food.getCoordinates();
+                }
             }
         }
         return null;

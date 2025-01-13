@@ -1,9 +1,12 @@
 package second_project.simulation;
 
+import second_project.simulation.entities.creatures.Creature;
 import second_project.simulation.map.SimulationMap;
 import second_project.simulation.simulation.Simulation;
 
-import static second_project.simulation.AppConstants.GAME_TURNS;
+import java.util.stream.Collectors;
+
+import static second_project.simulation.AppSettings.GAME_TURNS;
 
 public class SimulationApplication {
 
@@ -24,9 +27,11 @@ public class SimulationApplication {
                 simulation.renderMap();
 
                 for (int i = 0; i < GAME_TURNS; i++) {
-                    System.out.println();
-                    simulation.makeMove();
-                    simulation.renderMap();
+                    if (MapUtility.getEntities().stream().filter(e -> e instanceof Creature).map(e -> e.getClass()).collect(Collectors.toSet()).toArray().length > 1) {
+                        System.out.println();
+                        simulation.makeMove();
+                        simulation.renderMap();
+                    }
                 }
             }
             if (reply == 's') {

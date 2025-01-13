@@ -45,6 +45,10 @@ public abstract class Creature extends Entity {
     }
 
     public void makeAction() {
+        health--;
+        if (health <= 0) {
+            dead();
+        }
         Entity temp = getEatableFood();
         if (Objects.isNull(temp)) {
             try {

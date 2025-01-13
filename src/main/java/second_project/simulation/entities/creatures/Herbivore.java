@@ -1,6 +1,6 @@
 package second_project.simulation.entities.creatures;
 
-import second_project.simulation.AppConstants;
+import second_project.simulation.AppSettings;
 import second_project.simulation.ConsolePics;
 import second_project.simulation.Coordinates;
 
@@ -11,14 +11,14 @@ public class Herbivore extends Creature {
     public Herbivore(Coordinates coordinates) {
         super(coordinates);
         img = String.valueOf(ConsolePics.HERBIVORE.getPic());
-        speed = AppConstants.HERBIVORE_SPEED;
-        health = AppConstants.HERBIVORE_HEALTH;
+        speed = AppSettings.HERBIVORE_SPEED;
+        health = AppSettings.HERBIVORE_HEALTH;
         foodType = Grass.class;
     }
 
     @Override
     protected void biteMyFood(Entity food) {
-        if (health < AppConstants.HERBIVORE_HEALTH) {
+        if (health < AppSettings.HERBIVORE_HEALTH) {
             health++;
         }
     }
