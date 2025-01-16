@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
 public class SimulationMap {
     private static volatile SimulationMap instance;
     private final ConcurrentHashMap<Coordinates, Entity> map;
-    private final int worldHeight;
-    private final int worldWidth;
-
+    private int coefficient = 1;
+    private int worldHeight;
+    private int worldWidth;
     private SimulationMap() {
         this.map = new ConcurrentHashMap<>();
         worldHeight = AppSettings.WORLD_HEIGHT;
@@ -32,6 +32,28 @@ public class SimulationMap {
             }
         }
         return instance;
+    }
+
+    public int getCoefficient() {
+        return coefficient;
+    }
+
+    public int getWorldHeight() {
+        return worldHeight;
+    }
+
+    public void setWorldHeight(int worldHeight) {
+        this.worldHeight = worldHeight;
+        coefficient = ((worldWidth * worldHeight) / (AppSettings.WORLD_HEIGHT * AppSettings.WORLD_WIDTH));
+    }
+
+    public int getWorldWidth() {
+        return worldWidth;
+    }
+
+    public void setWorldWidth(int worldWidth) {
+        this.worldWidth = worldWidth;
+        coefficient = ((worldWidth * worldHeight) / (AppSettings.WORLD_HEIGHT * AppSettings.WORLD_WIDTH));
     }
 
     public CopyOnWriteArrayList<Entity> getEntities() {
@@ -66,13 +88,13 @@ public class SimulationMap {
     public Coordinates getEmptyRandomCoordinate() {
         Coordinates randomCoordinate;
         do {
-            randomCoordinate = new Coordinates(getRandomIntegerInLimit(AppSettings.WORLD_WIDTH), getRandomIntegerInLimit(AppSettings.WORLD_HEIGHT));
+            randomCoordinate = new Coordinates(getRandomIntegerInLimit(worldWidth), getRandomIntegerInLimit(worldHeight));
         } while (map.containsKey(randomCoordinate));
         return randomCoordinate;
     }
 
     public boolean isCoordinateOnMap(Coordinates coordinates) {
-        return coordinates.abscissa >= 0 && coordinates.ordinate >= 0 && coordinates.abscissa < AppSettings.WORLD_WIDTH && coordinates.ordinate < AppSettings.WORLD_HEIGHT;
+        return coordinates.abscissa >= 0 && coordinates.ordinate >= 0 && coordinates.abscissa < worldWidth && coordinates.ordinate < worldHeight;
     }
 
     public List<Coordinates> getAvailableMoveCoordinates(Coordinates coordinates) {

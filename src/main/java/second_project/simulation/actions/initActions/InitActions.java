@@ -21,7 +21,7 @@ public abstract class InitActions extends Action {
 
     protected void setGrass() {
         Grass grass;
-        for (int j = 0; j < AppSettings.GRASS_AMOUNT; j++) {
+        for (int j = 0; j < AppSettings.GRASS_AMOUNT * simulationMap.getCoefficient(); j++) {
             grass = new Grass(simulationMap.getEmptyRandomCoordinate());
             simulationMap.setEntityToCoordinate(grass.getCoordinates(), grass);
         }
@@ -29,7 +29,7 @@ public abstract class InitActions extends Action {
 
     protected void setRocks() {
         Rock rock;
-        for (int j = 0; j < AppSettings.ROCKS_AMOUNT; j++) {
+        for (int j = 0; j < AppSettings.ROCKS_AMOUNT * simulationMap.getCoefficient(); j++) {
             rock = new Rock(simulationMap.getEmptyRandomCoordinate());
             simulationMap.setEntityToCoordinate(rock.getCoordinates(), rock);
         }
@@ -37,7 +37,7 @@ public abstract class InitActions extends Action {
 
     protected void setTrees() {
         Tree tree;
-        for (int j = 0; j < AppSettings.TREES_AMOUNT; j++) {
+        for (int j = 0; j < AppSettings.TREES_AMOUNT * simulationMap.getCoefficient(); j++) {
             tree = new Tree(simulationMap.getEmptyRandomCoordinate());
             simulationMap.setEntityToCoordinate(tree.getCoordinates(), tree);
         }
@@ -45,7 +45,7 @@ public abstract class InitActions extends Action {
 
     protected void setHerbivores() {
         Herbivore herbivore;
-        for (int j = 0; j < AppSettings.HERBIVORE_AMOUNT; j++) {
+        for (int j = 0; j < AppSettings.HERBIVORE_AMOUNT * simulationMap.getCoefficient(); j++) {
             herbivore = new Herbivore(MapUtility.getEmptyRandomCoordinate());
             simulationMap.setEntityToCoordinate(herbivore.getCoordinates(), herbivore);
         }
@@ -53,7 +53,7 @@ public abstract class InitActions extends Action {
 
     protected void setCarnivores() {
         Carnivore carnivore;
-        for (int j = 0; j < AppSettings.CARNIVORE_AMOUNT; j++) {
+        for (int j = 0; j < AppSettings.CARNIVORE_AMOUNT * simulationMap.getCoefficient(); j++) {
             carnivore = new Carnivore(MapUtility.getEmptyRandomCoordinate());
             simulationMap.setEntityToCoordinate(carnivore.getCoordinates(), carnivore);
         }

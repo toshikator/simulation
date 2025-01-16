@@ -53,7 +53,14 @@ public class MapUtility {
         result.add(new Coordinates(coordinates.abscissa - 1, coordinates.ordinate));
         result.add(new Coordinates(coordinates.abscissa, coordinates.ordinate + 1));
         result.add(new Coordinates(coordinates.abscissa, coordinates.ordinate - 1));
-
         return result;
+    }
+
+    public static void setWorldWidth(int width) {
+        simulationMap.setWorldWidth(width);
+    }
+
+    public static void setWorldHeight(int height) {
+        simulationMap.setWorldHeight(height);
     }
 }

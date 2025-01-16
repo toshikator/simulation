@@ -15,12 +15,14 @@ public class MenuUtility {
             case 'h':
                 System.out.println("Plz, input world height");
 //                AppSettings.setWorldHeight(getIntegerWithLimits(1, 30));
-                System.out.println("world height now is " + AppSettings.WORLD_HEIGHT);
+                MapUtility.setWorldHeight(getIntegerWithLimits(1, 35));
+//                System.out.println("world height now is " + MapUtility.get);
                 break;
             case 'w':
                 System.out.println("Plz, input world width");
 //                AppSettings.setWorldWidth(getIntegerWithLimits(1, 30));
-                System.out.println("world width now is " + AppSettings.WORLD_WIDTH);
+                MapUtility.setWorldWidth(getIntegerWithLimits(1, 35));
+//                System.out.println("world width now is " + AppSettings.WORLD_WIDTH);
                 break;
             default:
                 System.out.println("Invalid character, you have an invalid mindset");
